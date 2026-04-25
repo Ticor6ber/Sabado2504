@@ -25,10 +25,10 @@ const options = {
             description: 'Microservicio que calcula el valor final aplicando descuento antes del IVA'
         },
         servers: [
-            {
-                url: 'http://localhost:3010'
-            }
-        ]
+    {
+        url: 'https://sabado2504.onrender.com'
+    }
+]
     },
     apis: ['./server.js']
 };
