@@ -76,7 +76,7 @@ document.getElementById('formulario').addEventListener('submit', async e=>{
         descuentos:Number(descuentos.value)
     };
 
-    const res=await fetch('https://sabado2504.onrender.com',{
+    const res=await fetch('https://sabado2504.onrender.com/calcular',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify(data)
