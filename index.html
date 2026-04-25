@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container {
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    width:380px;
+}
+
+input, button {
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+}
+
+button {
+    background:#4facfe;
+    color:white;
+    border:none;
+}
+
+#resultado {
+    margin-top:15px;
+    font-size:14px;
+    line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Calculadora</h2>
+
+<form id="formulario">
+<input id="codigo" placeholder="Código" required>
+<input id="nombre" placeholder="Nombre" required>
+<input type="number" id="costoBase" placeholder="Costo Base" required>
+<input type="number" id="iva" placeholder="IVA" required>
+<input type="number" id="descuentos" placeholder="Descuento" required>
+<button>Calcular</button>
+</form>
+
+<div id="resultado"></div>
+</div>
+
+<script>
+document.querySelectorAll('input[type=number]').forEach(i=>{
+    i.addEventListener('keydown',e=>{
+        if(e.key==='e'||e.key==='E') e.preventDefault();
+    });
+});
+
+document.getElementById('formulario').addEventListener('submit', async e=>{
+    e.preventDefault();
+
+    const data={
+        codigo:codigo.value,
+        nombre:nombre.value,
+        costoBase:Number(costoBase.value),
+        IVA:Number(iva.value),
+        descuentos:Number(descuentos.value)
+    };
+
+    const res=await fetch('http://localhost:3010/calcular',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(data)
+    });
+
+    const r=await res.json();
+
+    document.getElementById('resultado').innerHTML = res.ok
+    ? `
+        <h3>Resultado</h3>
+        <b>Código:</b> ${r.codigo}<br>
+        <b>Nombre:</b> ${r.nombre}<br><br>
+
+        <b>Costo Base:</b> ${r.costoBase}<br>
+
+        <b>Descuento (${r.descuento.porcentaje}%):</b> -${r.descuento.valor}<br>
+
+        <b>Subtotal:</b> ${r.subtotal}<br>
+
+        <b>IVA (${r.IVA.porcentaje}%):</b> +${r.IVA.valor}<br><br>
+
+        <b>Total Final:</b> ${r.valorFinal}
+    `
+    : `<span style="color:red">${r.error}</span>`;
+});
+</script>
+
+</body>
+</html>
