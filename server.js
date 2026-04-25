@@ -124,15 +124,15 @@ app.post('/calcular', (req, res) => {
     }
 
     if (!esNumeroValido(costoBase) || !esNumeroValido(IVA) || !esNumeroValido(descuentos)) {
-        return res.status(400).json({ error: 'Valores numéricos inválidos' });
+        return res.status(404).json({ error: 'Valores numéricos inválidos' });
     }
 
     if (IVA < 0 || descuentos < 0 || IVA > 100 || descuentos > 100) {
-        return res.status(400).json({ error: 'IVA y descuentos deben estar entre 0 y 100' });
+        return res.status(404).json({ error: 'IVA y descuentos deben estar entre 0 y 100' });
     }
 
     if (costoBase < 0) {
-        return res.status(400).json({ error: 'El costo base no puede ser negativo' });
+        return res.status(404).json({ error: 'El costo base no puede ser negativo' });
     }
 
     // 🧠 Cálculo correcto
